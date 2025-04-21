@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: spring-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ""  # sin contraseña
+      MYSQL_DATABASE: spring_auth_db
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3308:3306"  # usa 3308 local para evitar conflictos "PUERTO_DEL_EQUIPO:PUERTO_DEL_CONTENEDOR"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: spring-docker-auth
+    depends_on:
+      - mysql
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/spring_auth_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+volumes:
+  mysql_data:
