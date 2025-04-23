@@ -23,7 +23,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t <NOMBRE_IMAGEN>:latest .
+          docker build -t miapp:latest .
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
